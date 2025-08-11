@@ -15,6 +15,7 @@ const MainScreen = () => {
              <View style={styles.listView}>
                 <Text style={styles.listTitle}>완료된 일</Text>
             </View>
+            <InputForm />
         </SafeAreaView>
     );
 };
