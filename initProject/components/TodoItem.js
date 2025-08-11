@@ -25,7 +25,7 @@ const TodoItem = () => {
 export default TodoItem;
 
 const styles = StyleSheet.create({
-    itemContatiner: {
+    itemContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingTop: 10,

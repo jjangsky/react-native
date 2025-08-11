@@ -1,7 +1,8 @@
-import { Platform, StatusBar, Text, View } from 'react-native';
+import { Platform, StatusBar, Text, View, StyleSheet } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { InputForm } from '../components/InputForm';
+import InputForm from '../components/InputForm';
+import TodoItem from '../components/TodoItem';
 
 const MainScreen = () => {
     return (
@@ -10,6 +11,7 @@ const MainScreen = () => {
             <Text style={styles.pageTitle}>TODO APP</Text>
             <View style={styles.listView}>
                 <Text style={styles.listTitle}>할 일</Text>
+                <TodoItem />
             </View>
             <View style={styles.separator} />
             <View style={styles.listView}>
