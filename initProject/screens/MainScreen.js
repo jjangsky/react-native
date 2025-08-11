@@ -1,7 +1,7 @@
 import { Platform, StatusBar, Text, View } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Background } from '@react-navigation/elements';
+import { InputForm } from '../components/InputForm';
 
 const MainScreen = () => {
     return (
@@ -11,8 +11,8 @@ const MainScreen = () => {
             <View style={styles.listView}>
                 <Text style={styles.listTitle}>할 일</Text>
             </View>
-            <View style={styles.separator}/>
-             <View style={styles.listView}>
+            <View style={styles.separator} />
+            <View style={styles.listView}>
                 <Text style={styles.listTitle}>완료된 일</Text>
             </View>
             <InputForm />
@@ -54,5 +54,4 @@ const styles = StyleSheet.create({
         fontSize: 41,
         fontWeight: '500',
     },
-
 });
