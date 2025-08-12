@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import rootReducer from './reducers/index'; // Assuming you have a counter reducer
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux'; // Import Provider from react-redux
 import {createStore} from 'redux';
 
 // redux는 상태 관리 라이브러리로, 애플리케이션의 상태를 중앙에서 관리할 수 있게 해줍니다.
@@ -22,9 +23,11 @@ store.dispatch({
 
 const render = () => root.render(
   <React.StrictMode>
-    <App value={store.getState()}
-    onIncrement={()=> store.dispatch({type:"INCREMENT"})}
-    onDecrement={()=> store.dispatch({type:"DECREMENT"})}/>
+    <Provider store={store}>
+      <App value={store.getState()}
+      onIncrement={()=> store.dispatch({type:"INCREMENT"})}
+      onDecrement={()=> store.dispatch({type:"DECREMENT"})}/>
+      </Provider>
   </React.StrictMode>
 );
 
