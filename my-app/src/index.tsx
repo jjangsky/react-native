@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import counter from './reducers/index'; // Assuming you have a counter reducer
+import rootReducer from './reducers/index'; // Assuming you have a counter reducer
 import reportWebVitals from './reportWebVitals';
 import {createStore} from 'redux';
 
@@ -13,7 +13,12 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const store = createStore(counter);
+const store = createStore(rootReducer);
+
+store.dispatch({
+  type: 'ADD_TODO',
+  text: 'Hello Redux'
+})
 
 const render = () => root.render(
   <React.StrictMode>
@@ -24,6 +29,5 @@ const render = () => root.render(
 );
 
 render();
-store.subscribe(render); // 상태가 변경될 때마다 render 함수를 호출하여 UI를 업데이트
 
 reportWebVitals();
