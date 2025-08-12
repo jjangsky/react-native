@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import counterReducer from './counter'; // Assuming you have a counterReducer
-import todosReducer from './todos'; // Assuming you have a todosReducer
-import exp from 'constants';
+import counter from './counter'; // Assuming you have a counterReducer
+import todos from './todos'; // Assuming you have a todosReducer
 
 const rootReducer = combineReducers({
-  counterReducer,  
-   todosReducer
-
-})
+    counter,
+    todos,
+});
 
 export default rootReducer;
+
+export type RootState = ReturnType<typeof rootReducer>;
