@@ -1,23 +1,55 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import React, { useState } from 'react';
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ListIcon from '../assets/svg/list.svg';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import Toast from 'react-native-toast-message';
 
 const LoginScreen = () => {
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
-
+   const navigation = useNavigation();
    const auth = getAuth();
+
+   useEffect(() => {
+      onAuthStateChanged(auth, user => {
+         console.log('Auth state changed:', user);
+         if (user) {
+            navigation.replace('Main');
+         }
+      });
+   }, []);
+
    const handleSignUp = async () => {
       // 파이어 베이스 회원 가입 처리
       try {
          const user = await createUserWithEmailAndPassword(auth, email, password);
+         Toast.show({ type: 'succcess', text1: '회원 가입 성공', text2: '환영합니다!' });
       } catch (error) {
          console.error('회원 가입 실패:', error);
+         Alert.alert(
+            '회원가입 도중에 문제가 발생했습니다.',
+            error.message,
+            [{ text: '닫기', onPress: () => console.log('닫기 버튼 클릭됨') }],
+            { cancelable: true },
+         );
       }
    };
-   const handleLogin = async () => {};
+   const handleLogin = async () => {
+      // 파이어 베이스 로그인 처리
+      try {
+         const user = await signInWithEmailAndPassword(auth, email, password);
+         Toast.show({ type: 'success', text1: '로그인 성공', text2: `환영합니다, ${user.user.email}!` });
+      } catch (error) {
+         console.error('로그인 실패:', error);
+         Alert.alert(
+            '로그인 도중에 문제가 발생했습니다.',
+            error.message,
+            [{ text: '닫기', onPress: () => console.log('닫기 버튼 클릭됨') }],
+            { cancelable: true },
+         );
+      }
+   };
 
    return (
       <View style={styles.container}>
