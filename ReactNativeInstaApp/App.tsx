@@ -7,6 +7,7 @@ import Home from './src/screens/Home';
 import Status from './src/screens/Status';
 import FriendProfile from './src/screens/FriendProfile';
 import EditProfile from './src/screens/EditProfile';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -17,11 +18,26 @@ const App = () => {
     // 바텀 탭 라우팅 함수
     return (
       <Tab.Navigator
-        screenOptions={() => ({
+        screenOptions={({ route }) => ({
           tabBarHideOnKeyboard: true,
           tabBarShowLabel: false,
           headerShown: false,
           tabBarStyle: { height: 70 },
+          tabBarIcon: ({ focused, color, size }) => {
+            // 아이콘 설정
+            let iconName: string = 'home-outline';
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Search') {
+              iconName = focused ? 'search' : 'search-outline';
+            } else if (route.name === 'Activity') {
+              iconName = focused ? 'heart' : 'heart-outline';
+            } else if (route.name === 'Profile') {
+              iconName = focused ? 'person' : 'person-outline';
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
         })}
       >
         <Tab.Screen name="Home" component={Home} />
