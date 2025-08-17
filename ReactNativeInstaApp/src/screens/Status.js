@@ -1,15 +1,19 @@
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { StatusBar } from 'react-native/types_generated/index';
 import React, { useEffect } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Image } from 'react-native';
 import { useRef } from 'react';
 import { Animated } from 'react-native/types_generated/index';
+import Ionic from 'react-native-vector-icons/Ionicons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const Status = ({ route, navigation }) => {
   const { name, image } = route.params;
   // 애니메이션을 위한 useRef 훅 사용
   const progress = useRef(new Animated.Value(0)).current;
+  const statusBarHeight = getStatusBarHeight();
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 애니메이션 시작
@@ -39,6 +43,8 @@ const Status = ({ route, navigation }) => {
       <StatusBar backgroundColor="black" barStyle="light-content" />
       <View
         style={{
+          // ios와 안드로이드 상태바 높이를 다르게 설정(기본 환경 차이 이슈로 맞춰줘야함)
+          marginTop: Platform.OS === 'ios' ? statusBarHeight : 0,
           height: 3,
           width: '95%',
           boderWidth: 1,
@@ -61,6 +67,7 @@ const Status = ({ route, navigation }) => {
       </View>
       <View
         style={{
+          marginTop: Platform.OS === 'ios' ? statusBarHeight : 0,
           padding: 15,
           flexDirection: 'row',
           alignItems: 'center',
