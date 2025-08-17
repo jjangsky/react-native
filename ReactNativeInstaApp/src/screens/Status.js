@@ -1,9 +1,31 @@
 import { View, Text } from 'react-native';
 import { StatusBar } from 'react-native/types_generated/index';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { Image } from 'react-native';
+import { useRef } from 'react';
+import { Animated } from 'react-native/types_generated/index';
 
 const Status = ({ route, navigation }) => {
   const { name, image } = route.params;
+  // 애니메이션을 위한 useRef 훅 사용
+  const progress = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 애니메이션 시작
+    Animated.timing(progress, {
+      toValue: 5,
+      duration: 5000, // 5초 동안 진행
+      useNativeDriver: false, // width 애니메이션은 native driver를 사용할 수 없음
+    }).start();
+  }, [progress]);
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      navigation.goBack();
+    }, 5000); // 5초 후에 Status 화면을 닫음
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+  }, []);
 
   return (
     // navigation으로 전달받은 정볼르 route로 전달 받아서 사용함
@@ -24,7 +46,19 @@ const Status = ({ route, navigation }) => {
           position: 'absolute',
           top: 18,
         }}
-      ></View>
+      >
+        <Animated.View
+          // 애니메이션을 적용하여 진행률 표시, width를 애니메이션 값으로 설정
+          style={{
+            width: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: ['0%', '100%'],
+            }),
+            height: '100%',
+            backgroundColor: 'white',
+          }}
+        />
+      </View>
       <View
         style={{
           padding: 15,
