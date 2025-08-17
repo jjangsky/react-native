@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Stories from '../components/Stories';
+import Post from '../components/Post';
 import { ScrollView } from 'react-native/types_generated/index';
 
 const Home = () => {
@@ -38,6 +39,7 @@ const Home = () => {
       </View>
       <ScrollView>
         <Stories />
+        <Post />
       </ScrollView>
     </SafeAreaView>
   );
