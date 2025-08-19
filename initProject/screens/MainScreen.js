@@ -4,16 +4,34 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import InputForm from '../components/InputForm';
 import TodoItem from '../components/TodoItem';
 import { useSelector } from 'react-redux';
+import { signOut, getAuth } from 'firebase/auth';
+import { useNavigation } from 'expo-router';
 
 const MainScreen = () => {
    const todos = useSelector(state => state.todo.todos); // redux store에서 todos 가져오기
    const todoTasks = todos.filter(todo => todo.state === 'todo');
    const completedTasks = todos.filter(todo => todo.state === 'done');
+   const auth = getAuth();
+   const navigation = useNavigation();
+
+   const handleLogout = async () => {
+      try {
+         await signOut(auth);
+         navigation.replace('Login'); // 로그아웃 후 로그인 화면으로 이동
+      } catch (error) {
+         console.error('로그아웃 실패:', error);
+      }
+   };
 
    return (
       <SafeAreaView style={styles.container}>
          <StatusBar barStyle="default" />
-         <Text style={styles.pageTitle}>TODO APP</Text>
+         <View style={styles.headerContainer}>
+            <Text style={styles.pageTitle}>TODO APP</Text>
+            <TouchableOpacity style={styles.logOutButton} onPress={handleLogout}>
+               <Text style={styles.logOutText}>로그아웃</Text>
+            </TouchableOpacity>
+         </View>
          <View style={styles.listView}>
             <Text style={styles.listTitle}>할 일</Text>
             <TodoItem />
@@ -78,5 +96,24 @@ const styles = StyleSheet.create({
       paddingHorizontal: 15,
       fontSize: 41,
       fontWeight: '500',
+   },
+   headerContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+   },
+   logOutText: {
+      fontSize: 25,
+      color: '#f0f0f0',
+   },
+   logOutButton: {
+      marginBottom: 25,
+      marginRight: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 42,
+      height: 42,
+      backgroundColor: 'black',
+      borderRadius: 4,
    },
 });
